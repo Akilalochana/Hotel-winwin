@@ -3,35 +3,35 @@ import { motion } from 'framer-motion';
 
 const itemData = [
   {
-    img: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=500&auto=format',
+    img: '/room6.jpg',
     title: 'Hotel Exterior',
   },
   {
-    img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=500&auto=format',
+    img: '/room7.jpg',
     title: 'Luxury Suite',
   },
   {
-    img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500&auto=format',
+    img: '/room8.jpg',
     title: 'Restaurant',
   },
   {
-    img: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&auto=format',
+    img: '/room9.jpg',
     title: 'Swimming Pool',
   },
   {
-    img: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&auto=format',
+    img: '/room10.jpg',
     title: 'Gym',
   },
   {
-    img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&auto=format',
+    img: '/room11.jpg',
     title: 'Conference Room',
   },
   {
-    img: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=500&auto=format',
+    img: '/room3.jpg',
     title: 'Spa',
   },
   {
-    img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=500&auto=format',
+    img: '/room1.jpg',
     title: 'Garden View',
   },
 ];

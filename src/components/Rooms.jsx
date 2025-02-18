@@ -10,7 +10,7 @@ const rooms = [
   {
     id: 1,
     name: 'Deluxe AC Room',
-    image: 'https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=500&auto=format',
+    image: '/room1.jpg',
     price: '₹2,500',
     hasAC: true,
     description: 'Spacious room with modern amenities and city view',
@@ -21,7 +21,7 @@ const rooms = [
   {
     id: 2,
     name: 'Standard Non-AC Room',
-    image: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?w=500&auto=format',
+    image: '/room3.jpg',
     price: '₹1,500',
     hasAC: false,
     description: 'Comfortable room with essential amenities',
@@ -32,7 +32,7 @@ const rooms = [
   {
     id: 3,
     name: 'Premium AC Suite',
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=500&auto=format',
+    image: '/room4.jpg',
     price: '₹3,500',
     hasAC: true,
     description: 'Luxury suite with separate living area and premium amenities',
@@ -43,7 +43,7 @@ const rooms = [
   {
     id: 4,
     name: 'Family Non-AC Room',
-    image: 'https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=500&auto=format',
+    image: '/room5.jpg',
     price: '₹2,000',
     hasAC: false,
     description: 'Spacious room perfect for families',
