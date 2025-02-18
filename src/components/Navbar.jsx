@@ -1,13 +1,27 @@
-import { useState } from 'react';
-import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button, MenuItem, Stack } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
-import { Link } from 'react-router-dom';
+import PhoneIcon from '@mui/icons-material/Phone';
+import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const pages = ['Home', 'Rooms', 'Gallery', 'Contact'];
 
 function Navbar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      setIsScrolled(offset > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -17,38 +31,59 @@ function Navbar() {
     setAnchorElNav(null);
   };
 
-  return (
-    <AppBar position="fixed" sx={{ background: 'rgba(255, 255, 255, 0.9)', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AcUnitIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1, color: '#1a237e' }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component={Link}
-            to="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#1a237e',
-              textDecoration: 'none',
-            }}
-          >
-            WIN WIN GUEST
-          </Typography>
+  const isActivePage = (page) => {
+    if (page === 'Home') return location.pathname === '/';
+    return location.pathname === '/' + page.toLowerCase();
+  };
 
+  return (
+    <AppBar
+      position="fixed"
+      sx={{
+        background: isScrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent',
+        boxShadow: isScrolled ? '0 2px 4px rgba(0,0,0,0.1)' : 'none',
+        transition: 'all 0.3s ease-in-out',
+        backdropFilter: isScrolled ? 'blur(10px)' : 'none',
+      }}
+    >
+      <Container maxWidth="xl">
+        <Toolbar disableGutters sx={{ py: 1 }}>
+          {/* Desktop Logo */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center', mr: 4 }}>
+              <AcUnitIcon sx={{ mr: 1, color: isScrolled ? '#1a237e' : 'white' }} />
+              <Typography
+                variant="h5"
+                component={Link}
+                to="/"
+                sx={{
+                  fontFamily: 'Poppins, sans-serif',
+                  fontWeight: 700,
+                  letterSpacing: '.2rem',
+                  color: isScrolled ? '#1a237e' : 'white',
+                  textDecoration: 'none',
+                  transition: 'color 0.3s ease',
+                }}
+              >
+                WIN WIN
+              </Typography>
+            </Box>
+          </motion.div>
+
+          {/* Mobile Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              sx={{ color: isScrolled ? '#1a237e' : 'white' }}
             >
-              <MenuIcon sx={{ color: '#1a237e' }} />
+              <MenuIcon />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -66,11 +101,23 @@ function Navbar() {
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: 'block', md: 'none' },
+                '& .MuiPaper-root': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                },
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center" component={Link} to={`/${page.toLowerCase()}`} sx={{ textDecoration: 'none', color: '#1a237e' }}>
+                <MenuItem
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  component={Link}
+                  to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}
+                  sx={{
+                    backgroundColor: isActivePage(page) ? 'rgba(26, 35, 126, 0.1)' : 'transparent',
+                  }}
+                >
+                  <Typography textAlign="center" color="#1a237e">
                     {page}
                   </Typography>
                 </MenuItem>
@@ -78,37 +125,93 @@ function Navbar() {
             </Menu>
           </Box>
 
-          <AcUnitIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1, color: '#1a237e' }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component={Link}
-            to="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: '#1a237e',
-              textDecoration: 'none',
-            }}
-          >
-            WIN WIN
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'flex-end' }}>
-            {pages.map((page) => (
+          {/* Mobile Logo */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, alignItems: 'center' }}>
+            <AcUnitIcon sx={{ mr: 1, color: isScrolled ? '#1a237e' : 'white' }} />
+            <Typography
+              variant="h6"
+              component={Link}
+              to="/"
+              sx={{
+                fontFamily: 'Poppins, sans-serif',
+                fontWeight: 700,
+                letterSpacing: '.2rem',
+                color: isScrolled ? '#1a237e' : 'white',
+                textDecoration: 'none',
+              }}
+            >
+              WIN WIN
+            </Typography>
+          </Box>
+
+          {/* Desktop Menu Items */}
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
+            <AnimatePresence>
+              {pages.map((page) => (
+                <motion.div
+                  key={page}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Button
+                    component={Link}
+                    to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}
+                    onClick={handleCloseNavMenu}
+                    sx={{
+                      mx: 2,
+                      color: isScrolled ? '#1a237e' : 'white',
+                      display: 'block',
+                      fontWeight: 500,
+                      position: 'relative',
+                      '&::after': {
+                        content: '""',
+                        position: 'absolute',
+                        width: isActivePage(page) ? '100%' : '0%',
+                        height: '2px',
+                        bottom: 0,
+                        left: 0,
+                        backgroundColor: isScrolled ? '#1a237e' : 'white',
+                        transition: 'width 0.3s ease',
+                      },
+                      '&:hover::after': {
+                        width: '100%',
+                      },
+                    }}
+                  >
+                    {page}
+                  </Button>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </Box>
+
+          {/* Contact Button */}
+          <Box sx={{ flexGrow: 0 }}>
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+            >
               <Button
-                key={page}
+                variant={isScrolled ? 'contained' : 'outlined'}
                 component={Link}
-                to={`/${page.toLowerCase()}`}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: '#1a237e', display: 'block', mx: 2 }}
+                to="/contact"
+                startIcon={<PhoneIcon />}
+                sx={{
+                  display: { xs: 'none', md: 'flex' },
+                  bgcolor: isScrolled ? '#1a237e' : 'transparent',
+                  color: isScrolled ? 'white' : 'white',
+                  borderColor: 'white',
+                  '&:hover': {
+                    bgcolor: isScrolled ? '#0d47a1' : 'rgba(255, 255, 255, 0.2)',
+                    borderColor: 'white',
+                  },
+                }}
               >
-                {page}
+                Contact Us
               </Button>
-            ))}
+            </motion.div>
           </Box>
         </Toolbar>
       </Container>

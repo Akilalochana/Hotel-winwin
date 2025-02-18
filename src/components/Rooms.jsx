@@ -9,9 +9,9 @@ import { motion } from 'framer-motion';
 const rooms = [
   {
     id: 1,
-    name: 'Deluxe AC Room',
+    name: 'AC Room',
     image: '/room1.jpg',
-    price: '₹2,500',
+    price: 'Rs.5000',
     hasAC: true,
     description: 'Spacious room with modern amenities and city view',
     amenities: ['King Size Bed', 'Free WiFi', 'Mini Bar', 'Room Service'],
@@ -20,7 +20,7 @@ const rooms = [
   },
   {
     id: 2,
-    name: 'Standard Non-AC Room',
+    name: 'Non-AC Room',
     image: '/room3.jpg',
     price: '₹1,500',
     hasAC: false,
@@ -31,7 +31,7 @@ const rooms = [
   },
   {
     id: 3,
-    name: 'Premium AC Suite',
+    name: 'AC Suite',
     image: '/room4.jpg',
     price: '₹3,500',
     hasAC: true,
